@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/lmtani/cromwell-cli/refactor/domain"
+import "github.com/lmtani/cromwell-cli/domain"
 
 type cromwellUsecase struct {
 	cromwellServer domain.CromwellRepository
