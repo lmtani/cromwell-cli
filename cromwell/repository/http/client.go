@@ -20,7 +20,7 @@ type httpClient interface {
 	Post(u string, files map[string]string) (*http.Response, error)
 }
 
-func newHttpClient(host, token string) httpClient {
+func newHTTPClient(host, token string) httpClient {
 	return &client{host, token}
 }
 

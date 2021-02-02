@@ -13,7 +13,7 @@ type httpCromwellRepository struct {
 }
 
 func NewHTTPCromwellRepository(host, token string) domain.CromwellRepository {
-	c := newHttpClient(host, token)
+	c := newHTTPClient(host, token)
 	return &httpCromwellRepository{c}
 }
 
