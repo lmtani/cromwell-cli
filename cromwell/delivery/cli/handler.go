@@ -13,8 +13,7 @@ func NewCromwellHandler(app *cli.App, us domain.CromwellUsecase) {
 	handler := CromwellHandler{
 		CromwellUsecase: us,
 	}
-
-	app.Commands = []*cli.Command{{
+	cmd := cli.Command{
 		Name:    "query",
 		Aliases: []string{"q"},
 		Usage:   "Query workflows",
@@ -22,7 +21,8 @@ func NewCromwellHandler(app *cli.App, us domain.CromwellUsecase) {
 			&cli.StringFlag{Name: "name", Aliases: []string{"n"}, Required: false},
 		},
 		Action: handler.QueryWorkflow,
-	}}
+	}
+	app.Commands = append(app.Commands, &cmd)
 }
 
 func (h *CromwellHandler) QueryWorkflow(c *cli.Context) error {
