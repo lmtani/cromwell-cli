@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -10,6 +11,8 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
+
+var Version = "development"
 
 func startLogger() (*zap.Logger, error) {
 	config := zap.NewDevelopmentConfig()
@@ -35,10 +38,9 @@ func main() {
 		Usage: "Command line interface for Cromwell Server",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:     "token",
-				Aliases:  []string{"t"},
+				Name:     "iap",
 				Required: false,
-				Usage:    "Bearer token to be included in HTTP requsts",
+				Usage:    "Uses your defauld Google Credentials to obtains an access token to this audience.",
 			},
 			&cli.StringFlag{
 				Name:  "host",
@@ -47,11 +49,21 @@ func main() {
 			},
 		},
 		Before: func(c *cli.Context) error {
-			cromwellClient := commands.New(c.String("host"), c.String("token"))
+			cromwellClient := commands.New(c.String("host"), c.String("iap"))
 			c.Context = context.WithValue(c.Context, keyCromwell, cromwellClient)
 			return nil
 		},
 		Commands: []*cli.Command{
+			{
+				Name:    "version",
+				Aliases: []string{"v"},
+				Usage:   "Cromwell-CLI version",
+				Action: func(c *cli.Context) error {
+					fmt.Printf("Version: %s\n", Version)
+					return nil
+				},
+			},
+
 			{
 				Name:    "query",
 				Aliases: []string{"q"},
